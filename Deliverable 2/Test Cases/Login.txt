@@ -1,0 +1,15 @@
+Feature: Login
+	As a user, I want to log into the website
+
+	Scenario: Successful login
+		Given the user is on the login page
+		When the user enters a valid email and password
+		And clicks the "Login" button
+		Then the user should be redirected to the home page
+	
+	Scenario: Incorrect credentials
+		Given the user is on the login page
+		When the user enters an invalid email or password
+		And clicks the "Login" button
+		Then the user should be notified of an invalid email or password
+		And they should not be redirected to the home page

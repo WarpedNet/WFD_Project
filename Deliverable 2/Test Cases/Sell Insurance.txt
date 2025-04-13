@@ -1,0 +1,20 @@
+Feature: Sell Insurance
+	As an Insurance Provider, I want to sell insurance
+	
+	Scenario: Show sell insurance if logged in
+		Given I am logged in with an Insurance Provider account
+		When I open the insurance page
+		Then I can see an option to sell insurance
+	
+	Scenario: Do not show sell insurance if not logged in
+		Given I am not logged in
+		When I open the insurance page
+		Then I can see availible insurance packages
+		And I can not see an option to sell insurance
+	
+	Scenario: Do not show sell insurance if logged in with incorrect account type
+		Given I am not logged in with an Insurance Provider account
+		When I open the insurance page
+		Then I can see availible insurance packages
+		And I can not see an option to sell insurance
+	

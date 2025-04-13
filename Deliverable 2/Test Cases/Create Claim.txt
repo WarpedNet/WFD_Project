@@ -1,0 +1,18 @@
+Feature: Create Claim
+	As a user, I want to be able to create a claim
+
+	Scenario: Do not show create claim if not logged in
+		Given I am not logged in
+		When I open the create claim page
+		Then I am redirected to login
+	
+	Scenario: Show create claim if logged in
+		Given I am logged in with a customer account
+		When I click the "Create claim" button
+		Then I am redirected to the create claim page
+		And I can create a claim
+	
+	Scenario: Do not show create claim if not logged in with correct account
+		Given I am logged in with a non-customer account
+		When I open the create claim page
+		Then I am redirected to the home page

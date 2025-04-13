@@ -1,0 +1,11 @@
+Feature Login:
+
+	Scenario: Show login if not logged in
+		Given I am not logged on to the website
+		When I open the website
+		Then I can see a login page
+	
+	Scenario: Incorrect log in
+		Given I attempted to log on to the website
+		When I enter incorrect details
+		Then I can see a message stating that I have entered incorrect details

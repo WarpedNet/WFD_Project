@@ -1,0 +1,18 @@
+Feature: View Claim
+	
+	Scenario: Do not show view claim page if not logged in
+		Given I am not logged in
+		When I open the view claim page
+		Then I am redirected to login
+	
+	Scenario: Show view my claim page if logged in
+		Given I am logged in
+		When I click the "View claims" button
+		Then I am redirected to the my claims page
+		And I can see all the claims that I have made
+	
+	Scenario: Show all claims if logged in with a non-customer account
+		Given I am logged in with a non-customer account
+		When I click the "View Claims" button
+		Then I am redirected to the view claims page
+		And I can see all claims that have been made

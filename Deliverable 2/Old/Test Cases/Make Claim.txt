@@ -1,0 +1,12 @@
+Feature: Make Claim
+
+	Scenario: Do not show make claim if not logged in
+		Given I am not logged on to the website
+		When I open the website
+		Then I can see a login page
+		And I do not see a make claim option
+	
+	Scenario: Show make claim option on the claims page after logging in
+		Given I have just logged on to the website
+		When I load the claims page
+		Then I have the option to create a new claim

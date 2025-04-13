@@ -1,0 +1,11 @@
+Feature: Buy Insurance
+
+	Scenario: Do not show buy insurance if not logged on to the website
+		Given I am not logged on to the website
+		When I open the website
+		Then I do not see an option to buy insurance
+	
+	Scenario: Show buy insurance after logging on to the website
+		Given I am logged on to the website
+		When I open the website
+		Then I see an option to buy insurance

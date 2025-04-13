@@ -1,0 +1,22 @@
+Feature: Register
+	As a user, I want to create an account to be able to access the website
+
+	Scenario: Successful registration
+		Given the user is on the registration page
+		When the user enters all of their information
+		And clicks the "Register" button
+		And the user does not already exist
+		Then the user will be prompted with an account created message and redirected to login
+	
+	Scenario: Do not create account if account already exists
+		Given the user is on the registration page
+		When the user enters all of their information
+		And clicks the "Register" button
+		And the user account already exists
+		Then the user will be prompted with a message stating that the account already exists
+	
+	Scenario: Do not create account if missing information
+		Given the user is on the registration page
+		When the user does not enter all of their information
+		And clicks the "Register" button
+		Then the user will be prompted with a message stating that more information is required

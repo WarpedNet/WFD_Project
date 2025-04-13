@@ -1,0 +1,7 @@
+Feature: Register
+
+	Scenario: Show registration page if not logged on and have not account
+		Given I am not logged on to the website and I have no account
+		When I load the login page
+		Then I can see an option to register
+	

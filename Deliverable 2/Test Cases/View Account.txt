@@ -1,0 +1,14 @@
+Feature: View Account
+	As a user, I want to be able to view my account details
+
+	Scenario: Do not show account if not logged in
+		Given I am not logged on to the website
+		When I open the accounts page
+		Then I am redirected to the login page
+		And I do not see the accounts page
+	
+	Scenario: Show account if logged in
+		Given I am logged on to the website
+		When I clicks the "My Account" button
+		Then I am redirected to the accounts page
+		And I see my account details

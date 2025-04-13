@@ -1,0 +1,13 @@
+Feature: Modify Claim
+
+	Scenario: Do not show modify claim unless logged in with a Law Firm or Government account
+		Given I am not logged on to the website with a law firm or government account
+		When I load the claims page
+		Then I can see only my claims
+		And I do not see an option to modify claims
+	
+	Scenario: Show modify claim if logged in with a Law Firm or Government Account
+		Given I am logged on to the website with a Law Firm or Government account
+		When I load the claims page
+		Then I can see all claims
+		And I can see a modify option for each claim

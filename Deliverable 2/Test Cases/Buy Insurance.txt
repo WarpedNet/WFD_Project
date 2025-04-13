@@ -1,0 +1,19 @@
+Feature: Buy Insurance
+	As a user, I want to be able to purchase insurance
+	
+	Scenario: Do not show insurance page if not logged in
+		Given I am not logged in
+		When I open the insurance page
+		Then I am redirected to the login page
+		And I cannot see the insurance page
+	
+	Scenario: Show insurance page if logged in
+		Given I am logged in
+		When I click the "Purchase Insurance" button
+		Then I am redirected to the insurance
+	
+	Scenario: Do not checkout if no insurance is selected
+		Given I am on the insurance page
+		When I click the "Checkout" button
+		And I have not selected any insurance to buy
+		Then I am notified that I must select an insurance before checking out

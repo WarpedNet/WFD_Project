@@ -1,0 +1,17 @@
+Feature: Update Details
+	As a user, I want to be able to change my account details
+	
+	Scenario: Do not show update details on accounts page if not logged in
+		Given I am not logged in to the website
+		When I open the accounts page
+		Then I am redirected to the login page
+		And I do not see the accounts page
+		And I am not able to modify any details
+	
+	Scenario: Show update details on accounts page if logged in
+		Given I am logged in to the website
+		When I click the "My Account" button
+		Then I am redirected to the my account page
+		And I can edit my details if necessary
+	
+	

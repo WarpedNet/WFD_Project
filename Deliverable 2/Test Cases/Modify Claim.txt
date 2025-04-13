@@ -1,0 +1,14 @@
+Feature: Modify Claim
+	
+	Scenario: Do not show modify claim if not logged in
+		Given I am not logged in
+		When I open the modify claim page
+		Then I am redirected to the login page
+		And I cannot see the modify claim page
+	
+	Scenario: Show modify claim if logged in with a non-Insurance provider account
+		Given I am logged in with a non-Insurance provider account
+		When I click the "Modify claim" button on the view claims page
+		Then I am redirected to the modify claim page
+		And I can modify my claim
+	

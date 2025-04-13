@@ -1,0 +1,12 @@
+Feature: Update Details
+
+	Scenario: Do not show update details unless logged in
+		Given I am not logged on to the website
+		When I open the website
+		Then I can see a login page
+		And I do not see an option to update details
+	
+	Scenario: Show update details if logged in
+		Given I have just logged in on to the website
+		When I load the account page
+		Then I can see options to update my details

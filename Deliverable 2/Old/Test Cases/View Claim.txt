@@ -1,0 +1,12 @@
+Feature: View Claim
+
+	Scenario: Do not show claims if not logged in
+		Given I am not logged on to the website
+		When I open the website
+		Then I can see a login page
+		And I do not see claims
+	
+	Scenario: Show claims on the claims page after logging in
+		Given I am logged on to the website
+		When I load the claims page
+		Then I can see all of my claims

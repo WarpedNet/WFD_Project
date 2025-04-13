@@ -1,0 +1,17 @@
+Feature: View Account
+
+	Scenario: Do not show view account if not logged in
+		Given I am not logged on to the website
+		When I open the website
+		Then I can see a login page
+		And I do not see view account
+		
+	Scenario: Show view account after logging in
+		Given I have just logged on to the website
+		When I open the website
+		Then I can see a view account option
+	
+	Scenario: Show account details after logging in
+		Given I have just logged on to the website
+		When I load the accounts page
+		Then I can see my personal details

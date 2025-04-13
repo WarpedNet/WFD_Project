@@ -1,0 +1,27 @@
+Customer
+	The Customer must have an account.
+	The Customer can have / be covered by multiple Insurance packages.
+	The Customer can have multiple claims.
+	The Customer can have multiple Purchase Orders
+
+Insurance_Provider
+	The Insurance_Provider must have an account.
+	The Insurance_Provider can provide multiple Insurance packages.
+
+Law_Firm
+	The Law_Firm must have an account.
+	The Law_Firm can manage multiple claims.
+
+Government_Agency
+	The Government_Agency must have an account.
+	The Government_Agency can manage multiple claims.
+
+Claim
+	Each claim can contain multiple Insurance packages where the insurance is part of the claim.
+
+Insurance
+	Each insurance can be associated with multiple different claims such as in the case of a Customer affecting multiple people and each one of those people creating a claim.
+
+Purchase_Order
+	Each Purchase_Order contains an item (Insurance) where the insurance is what the Customer is purchasing,
+	but each customer can create multiple purchase orders with each order containing one insurance package.

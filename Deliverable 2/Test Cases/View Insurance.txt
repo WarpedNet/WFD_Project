@@ -1,0 +1,14 @@
+Feature: View Insurance
+	As a user, I want to be able to view my insurance
+	
+	Scenario: Do not show my insurance if not logged in
+		Given I am not logged in
+		When I open the MyInsurance page
+		Then I am redirected to the login page
+		And I do not see the MyInsurance page
+		
+	Scenario: Show user insurance if logged in
+		Given I am logged in
+		When I click the "My Insurance" button
+		Then I am redirected to the MyInsurance page
+		And I can see my insurance
