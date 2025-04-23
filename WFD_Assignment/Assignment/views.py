@@ -47,10 +47,21 @@ def registerCustomer(request):
             address = form["address"].value()
             billingAddress = form["billingAddress"].value()
             email = form["email"].value()
-            
+            user = User.objects.create_user(username, email, password)
+            user.first_name = firstName
+            user.last_name = surname
+            user.dob = dob
+            user.phone_num = phoneNum
+            user.address = address
+            user.billing_address = billingAddress
+            user.save()
+            return redirect("/home")
     else:
         form = RegisterCustomer()
     return render(request, "assignment/register_customer.html", {"form":form})
 
 def home(request):
-    return render(request, "assignment/home.html")
+    if (request.user.is_authenticated):
+        return render(request, "assignment/home.html")
+    else:
+        return redirect("/login")
