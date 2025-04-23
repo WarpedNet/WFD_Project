@@ -22,5 +22,8 @@ urlpatterns = [
     path("login", views.login_page, name="login"),
     path("register", views.register, name="register"),
     path("register_customer", views.registerCustomer, name="registerCustomer"),
+    path("register_insurance_provider", views.registerInsuranceProvider, name="registerInsuranceProvider"),
+    path("register_law_firm", views.registerLawFirm, name="registerLawFirm"),
+    path("register_government", views.registerGovernment, name="registerGovernment"),
     path("home", views.home, name="home"),
 ]

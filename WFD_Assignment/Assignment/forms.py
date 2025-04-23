@@ -24,3 +24,26 @@ class RegisterCustomer(forms.Form):
     address = forms.CharField(label="Home Address", max_length=128)
     billingAddress = forms.CharField(label="Billing Address", max_length=128)
     email = forms.EmailField(label="Email Address", widget=forms.EmailInput, max_length=100)
+
+class RegisterInsuranceProvider(forms.Form):
+    username = forms.CharField(label="Username", max_length=100)
+    email = forms.EmailField(label="Email Address", widget=forms.EmailInput, max_length=100)
+    password = forms.CharField(label="Password", max_length=100, widget=forms.PasswordInput)
+    phoneNum = forms.CharField(label="Phone number", max_length=100)
+    address = forms.CharField(label="Home Address", max_length=128)
+    billingAddress = forms.CharField(label="Billing Address", max_length=128)
+
+class RegisterLawFirm(forms.Form):
+    username = forms.CharField(label="Username", max_length=100)
+    email = forms.EmailField(label="Email Address", widget=forms.EmailInput, max_length=100)
+    password = forms.CharField(label="Password", max_length=100, widget=forms.PasswordInput)
+    phoneNum = forms.CharField(label="Phone number", max_length=100)
+    address = forms.CharField(label="Home Address", max_length=128)
+    billingAddress = forms.CharField(label="Billing Address", max_length=128)
+
+class RegisterGovernment(forms.Form):
+    username = forms.CharField(label="Username", max_length=100)
+    email = forms.EmailField(label="Email Address", widget=forms.EmailInput, max_length=100)
+    password = forms.CharField(label="Password", max_length=100, widget=forms.PasswordInput)
+    address = forms.CharField(label="Home Address", max_length=128)
+    billingAddress = forms.CharField(label="Billing Address", max_length=128)
