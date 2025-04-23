@@ -19,7 +19,8 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("login", views.login_page, name="login"),
     path("register", views.register, name="register"),
-    path("home", views.home, name="home")
+    path("register_customer", views.registerCustomer, name="registerCustomer"),
+    path("home", views.home, name="home"),
 ]
