@@ -320,6 +320,10 @@ def view_claim(request):
     claims = Claims.objects.all()
     return render(request, "assignment/view_claim.html", {"claims":claims})
 
+def remove_claim(request, claimID):
+    Claims.objects.get(pk = claimID).delete()
+    return redirect("/view_claim")
+
 def logout_page(request):
     logout(request)
     return redirect("/login")

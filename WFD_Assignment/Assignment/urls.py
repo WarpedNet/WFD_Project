@@ -32,5 +32,6 @@ urlpatterns = [
     path("make_purchase_order/<int:insuranceID>", views.make_purchase_order, name="makePurchaseOrder"),
     path("make_claim", views.make_claim, name="makeClaim"),
     path("view_claim", views.view_claim, name="viewClaim"),
+    path("remove_claim/<int:claimID>", views.remove_claim, name="removeClaim"),
     path("home", views.home, name="home"),
 ]
