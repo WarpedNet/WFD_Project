@@ -17,15 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="/home">Home</a>
-                
-                {% if user.accType == "customer" %}
-                <a class="nav-item nav-link" href="/get_insurance">Get Insurance</a>
                 <a class="nav-item nav-link" href="/view_insurance">View Insurance</a>
-                {% endif %}
-
-                {% if user.accType == "law_firm" %}
-                <a class="nav-item nav-link" href="/view_insurance">View Insurance</a>
-                {% endif %}
 
                 {% if user.accType == "insurance_provider" %}
                 <a class="nav-item nav-link" href="/sell_insurance">Sell Insurance <span class="sr-only">(current)</span></a>

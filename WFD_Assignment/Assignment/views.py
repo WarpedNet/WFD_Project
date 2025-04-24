@@ -134,6 +134,10 @@ def home(request):
     if (not request.user.is_authenticated):
         return redirect("/login")
     
+    if (request.user.accType == "customer"):
+        customer = Customer.objects.get(user = request.user)
+        insuranceCoverage = Purchase_Order.objects.filter(customer = customer)
+        return render(request, "assignment/home.html", {"user":request.user, "insuranceCoverage":insuranceCoverage})
     return render(request, "assignment/home.html", {"user":request.user})
         
 
@@ -249,16 +253,11 @@ def account(request):
 
     return render(request, "assignment/account.html", {"user":request.user, "form":form})
 
-def get_insurance(request):
-    if (not request.user.is_authenticated or request.user.accType != "customer"):
-        return redirect("/login")
-    
-    return render(request, "assignment/get_insurance.html", {"user":request.user})
-
 def view_insurance(request):
     if (not request.user.is_authenticated):
         return redirect("/login")
     
+
     insurance = Insurance.objects.all()
     return render(request, "assignment/view_insurance.html", {"user":request.user, "insurances":insurance})
 
@@ -282,6 +281,17 @@ def sell_insurance(request):
     else:
         form = SellInsurance()
     return render(request, "assignment/sell_insurance.html", {"user":request.user, "form":form})
+
+def make_purchase_order(request, insuranceID):
+    insurance = Insurance.objects.get(pk=insuranceID)
+    customer = Customer.objects.get(user = request.user)
+    po = Purchase_Order(
+        customer = customer,
+        insurance = insurance
+    )
+    po.save()
+    return redirect("/view_insurance")
+
 
 def logout_page(request):
     logout(request)
