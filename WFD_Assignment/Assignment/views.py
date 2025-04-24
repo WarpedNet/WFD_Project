@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from .models import *
 from .forms import LoginForm, RegisterForm, RegisterCustomer, RegisterInsuranceProvider, RegisterLawFirm, RegisterGovernment
 
@@ -42,20 +41,21 @@ def register(request):
 def registerCustomer(request):
     if (request.method == "POST"):
         form = RegisterCustomer(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                form["username"].value(),
-                form["email"].value(),
-                form["password"].value()
+        if form.is_valid() and not UserModel.objects.filter(username = form["username"].value()).exists():
+            user = UserModel(
+                username = form["username"].value(),
+                first_name = form["firstName"].value(),
+                last_name = form["surname"].value(),
+                email = form["email"].value(),
+                address = form["address"].value(),
+                billingAddress = form["billingAddress"].value(),
+                accType = "customer"
             )
-            user.first_name = form["firstName"].value()
-            user.last_name = form["surname"].value()
-            user.dob = form["dob"].value()
-            user.phone_num = form["phoneNum"].value()
-            user.address = form["address"].value()
-            user.billing_address = form["billingAddress"].value()
-            user.accType = "customer"
+            user.set_password(form["password"].value())
             user.save()
+            customer = Customer(user = user, dob = form["dob"].value(), phoneNum = form["phoneNum"].value())
+            customer.save()
+
             return redirect("/login")
     else:
         form = RegisterCustomer()
@@ -64,17 +64,21 @@ def registerCustomer(request):
 def registerInsuranceProvider(request):
     if (request.method == "POST"):
         form = RegisterInsuranceProvider(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                form["username"].value(),
-                form["email"].value(),
-                form["password"].value()
+        if form.is_valid() and not UserModel.objects.filter(username = form["username"].value()).exists():
+            user = UserModel(
+                username = form["username"].value(),
+                email = form["email"].value(),
+                address = form["address"].value(),
+                billingAddress = form["billingAddress"].value(),
+                accType = "insurance_provider"
             )
-            user.phone_num = form["phoneNum"].value()
-            user.address = form["address"].value()
-            user.billing_address = form["billingAddress"].value()
-            user.accType = "insurance_provider"
+            user.set_password(form["password"].value())
             user.save()
+            insuranceProvider = Insurance_Provider(
+                user = user,
+                phoneNum = form["phoneNum"].value()
+            )
+            insuranceProvider.save()
             return redirect("/login")
     else:
         form = RegisterInsuranceProvider()
@@ -83,17 +87,21 @@ def registerInsuranceProvider(request):
 def registerLawFirm(request):
     if (request.method == "POST"):
         form = RegisterLawFirm(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                form["username"].value(),
-                form["email"].value(),
-                form["password"].value()
+        if form.is_valid() and not UserModel.objects.filter(username = form["username"].value()).exists():
+            user = UserModel(
+                username = form["username"].value(),
+                email = form["email"].value(),
+                address = form["address"].value(),
+                billingAddress = form["billingAddress"].value(),
+                accType = "law_firm"
             )
-            user.phone_num = form["phoneNum"].value()
-            user.address = form["address"].value()
-            user.billing_address = form["billingAddress"].value()
-            user.accType = "law_firm"
+            user.set_password(form["password"].value())
             user.save()
+            lawFirm = Law_Firm(
+                user = user,
+                phoneNum = form["phoneNum"].value()
+            )
+            lawFirm.save()
             return redirect("/login")
     else:
         form = RegisterLawFirm()
@@ -102,16 +110,20 @@ def registerLawFirm(request):
 def registerGovernment(request):
     if (request.method == "POST"):
         form = RegisterGovernment(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                form["username"].value(),
-                form["email"].value(),
-                form["password"].value()
+        if form.is_valid() and not UserModel.objects.filter(username = form["username"].value()).exists():
+            user = UserModel(
+                username = form["username"].value(),
+                email = form["email"].value(),
+                address = form["address"].value(),
+                billingAddress = form["billingAddress"].value(),
+                accType = "government"
             )
-            user.address = form["address"].value()
-            user.billing_address = form["billingAddress"].value()
-            user.accType = "government"
+            user.set_password(form["password"])
             user.save()
+            government = Government(
+                user = user
+            )
+            government.save()
             return redirect("/login")
     else:
         form = RegisterGovernment()
@@ -124,3 +136,15 @@ def home(request):
         return render(request, "assignment/home.html", {"user":request.user})
     else:
         return redirect("/login")
+
+def account(request):
+    return render(request, "assignment/account.html", {"user":request.user})
+
+def get_insurance(request):
+    return render(request, "assignment/get_insurance.html", {"user":request.user})
+
+def view_insurance(request):
+    return render(request, "assignment/view_insurance.html", {"user":request.user})
+
+def sell_insurance(request):
+    return render(request, "assignment/sell_insurance.html", {"user":request.user})

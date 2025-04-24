@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "Assignment.apps.AssignmentConfig",
 ]
 
+AUTH_USER_MODEL = "Assignment.UserModel"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -98,6 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = ["Assignment.backend.AuthenticationBackend"]
 
 
 # Internationalization

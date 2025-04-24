@@ -25,5 +25,9 @@ urlpatterns = [
     path("register_insurance_provider", views.registerInsuranceProvider, name="registerInsuranceProvider"),
     path("register_law_firm", views.registerLawFirm, name="registerLawFirm"),
     path("register_government", views.registerGovernment, name="registerGovernment"),
+    path("account", views.account, name="account"),
+    path("get_insurance", views.get_insurance, name="getInsurance"),
+    path("view_insurance", views.view_insurance, name="viewInsurance"),
+    path("sell_insurance", views.sell_insurance, name="sellInsurance"),
     path("home", views.home, name="home"),
 ]
