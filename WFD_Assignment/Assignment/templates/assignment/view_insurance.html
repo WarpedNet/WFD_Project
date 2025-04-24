@@ -19,6 +19,9 @@
         {% if user.accType == "customer" %}
         <a class="navbar-brand" href="/make_claim">Make Claim</a>
         {% endif %}
+        {% if user.accType == "government" %}
+        <a class="navbar-brand" href="/view_claim">View Claims</a>
+        {% endif %}
         {% if user.accType == "customer" %}
           <ul class="nav nav-pills">
             <li class="nav-item">

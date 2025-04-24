@@ -62,6 +62,6 @@ class MakeClaim(forms.Form):
     details = forms.CharField(max_length=512)
 
     def __init__(self, *args, **kwargs):
-        insurance = Purchase_Order.objects.filter(customer = kwargs.pop("customer"))
+        insurance = Purchase_Order.objects.filter(insurance = kwargs.pop("insurance"))
         super(MakeClaim, self).__init__(*args, **kwargs)
         self.fields["insurance"].queryset = insurance

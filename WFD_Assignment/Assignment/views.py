@@ -296,8 +296,9 @@ def make_claim(request):
     if (not request.user.is_authenticated or request.user.accType != "customer"):
         return redirect("/login")
     customer = Customer.objects.get(user = request.user)
+    insurance = Purchase_Order.objects.filter(customer = customer)
     if (request.method == "POST"):
-        form = MakeClaim(request.POST, customer = customer)
+        form = MakeClaim(request.POST, insurance = insurance)
         insurance = Insurance.objects.get(pk = form["insurance"].value())
         if form.is_valid():
             claim = Claims(
@@ -310,8 +311,14 @@ def make_claim(request):
             claim.save()
             return redirect("/home")
     else:
-        form = MakeClaim(customer = customer)
+        form = MakeClaim(insurance = insurance)
     return render(request, "assignment/make_claim.html", {"user":request.user, "form":form})
+
+def view_claim(request):
+    if (not request.user.is_authenticated or request.user.accType != "government"):
+        return redirect("/login")
+    claims = Claims.objects.all()
+    return render(request, "assignment/view_claim.html", {"claims":claims})
 
 def logout_page(request):
     logout(request)

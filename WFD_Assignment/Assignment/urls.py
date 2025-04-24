@@ -31,5 +31,6 @@ urlpatterns = [
     path("sell_insurance", views.sell_insurance, name="sellInsurance"),
     path("make_purchase_order/<int:insuranceID>", views.make_purchase_order, name="makePurchaseOrder"),
     path("make_claim", views.make_claim, name="makeClaim"),
+    path("view_claim", views.view_claim, name="viewClaim"),
     path("home", views.home, name="home"),
 ]
