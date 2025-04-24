@@ -1,2 +1,5 @@
 bootstrap throughtout the templates
 https://getbootstrap.com
+
+.gitignore
+https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
