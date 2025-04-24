@@ -34,4 +34,5 @@ urlpatterns = [
     path("view_claim", views.view_claim, name="viewClaim"),
     path("remove_claim/<int:claimID>", views.remove_claim, name="removeClaim"),
     path("home", views.home, name="home"),
+    path("", views.login_page)
 ]

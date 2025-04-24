@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .models import *
 from .forms import *
 # Create your views here.
@@ -13,6 +14,11 @@ def login_page(request):
             if (user is not None):
                 login(request, user)
                 return redirect("/home")
+            else:
+                messages.error(request, "Invalid username or password")
+                return render(request, "assignment/index.html", {"form":form})
+        messages.error(request, f"Invalid username or password")
+        return render(request, "assignment/index.html", {"form":form})
     else:
         form = LoginForm()
     
@@ -321,6 +327,8 @@ def view_claim(request):
     return render(request, "assignment/view_claim.html", {"claims":claims})
 
 def remove_claim(request, claimID):
+    if (not request.user.is_authenticated or request.user.accType != "government"):
+        return redirect("/login")
     Claims.objects.get(pk = claimID).delete()
     return redirect("/view_claim")
 
