@@ -138,7 +138,113 @@ def home(request):
         return redirect("/login")
 
 def account(request):
-    return render(request, "assignment/account.html", {"user":request.user})
+    if (request.method == "POST"):
+        user = UserModel.objects.get(username = request.user.username)
+        if (request.user.accType == "customer"):
+            customer = Customer.objects.get(user = user)
+            form = RegisterCustomer(request.POST)
+            if (form.is_valid()):
+                user.username = form["username"].value()
+                user.first_name = form["firstName"].value()
+                user.last_name = form["surname"].value()
+                user.email = form["email"].value()
+                user.address = form["address"].value()
+                user.billingAddress = form["billingAddress"].value()
+                user.set_password(form["password"].value())
+                user.save()
+                customer.user = user
+                customer.dob = form["dob"].value()
+                customer.phoneNum = form["phoneNum"].value()
+                customer.save()
+        elif (request.user.accType == "insurance_provider"):
+            insurance_provider = Insurance_Provider.objects.get(user)
+            form = RegisterInsuranceProvider(request.POST)
+            if (form.is_valid()):
+                user.username = form["username"].value()
+                user.email = form["email"].value()
+                user.address = form["address"].value()
+                user.billingAddress = form["billingAddress"].value()
+                user.set_password(form["password"].value())
+                user.save()
+                insurance_provider.user = user,
+                insurance_provider.phoneNum = form["phoneNum"].value()
+                insurance_provider.save()
+
+        elif (request.user.accType == "law_firm"):
+            law_firm = Law_Firm.objects.get(user)
+            form = RegisterLawFirm(request.POST)
+            if (form.is_valid()):
+                user.username = form["username"].value()
+                user.email = form["email"].value()
+                user.address = form["address"].value()
+                user.billingAddress = form["billingAddress"].value()
+                user.set_password(form["password"].value())
+                user.save()
+                law_firm.user = user,
+                law_firm.phoneNum = form["phoneNum"].value()
+                law_firm.save()
+
+        elif (request.user.accType == "government"):
+            government = Government.objects.get(user = user)
+            form = RegisterGovernment(request.POST)
+            if (form.is_valid()):
+                user.username = form["username"].value()
+                user.email = form["email"].value()
+                user.address = form["address"].value()
+                user.billingAddress = form["billingAddress"].value()
+                user.set_password(form["password"].value())
+                user.save()
+                government.user = user
+                government.save()
+        return redirect("/login")
+    else:
+        if (request.user.accType == "customer"):
+            customer = Customer.objects.get(user = request.user)
+            form = RegisterCustomer(
+                initial={
+                    'username':request.user.username,
+                    'firstName':request.user.first_name,
+                    'surname':request.user.last_name,
+                    'dob':customer.dob,
+                    'phoneNum':customer.phoneNum,
+                    'address':request.user.address,
+                    'billingAddress':request.user.billingAddress,
+                    'email':request.user.email
+                }
+            )
+        elif (request.user.accType == "law_firm"):
+            law_firm = Law_Firm.objects.get(user = request.user)
+            form = RegisterLawFirm(
+                initial={
+                    'username':request.user.username,
+                    'email':request.user.email,
+                    'phoneNum':law_firm.phoneNum,
+                    'address':request.user.address,
+                    'billingAddress':request.user.billingAddress
+                }
+            )
+        elif (request.user.accType == "insurance_provider"):
+            insurance_provider = Insurance_Provider.objects.get(user = request.user)
+            form = RegisterInsuranceProvider(
+                initial={
+                    'username':request.user.username,
+                    'email':request.user.email,
+                    'phoneNum':insurance_provider.phoneNum,
+                    'address':request.user.address,
+                    'billingAddress':request.user.billingAddress
+                }
+            )
+        elif (request.user.accType == "government"):
+            form = Government(
+                initial={
+                    'username':request.user.username,
+                    'email':request.user.email,
+                    'address':request.user.address,
+                    'billingAddress':request.user.billingAddress
+                }
+            )
+
+    return render(request, "assignment/account.html", {"user":request.user, "form":form})
 
 def get_insurance(request):
     return render(request, "assignment/get_insurance.html", {"user":request.user})
