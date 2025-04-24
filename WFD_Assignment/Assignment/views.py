@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import *
-from .forms import LoginForm, RegisterForm, RegisterCustomer, RegisterInsuranceProvider, RegisterLawFirm, RegisterGovernment
-
+from .forms import *
 # Create your views here.
 def login_page(request):
     if request.method == "POST":
@@ -59,7 +58,7 @@ def registerCustomer(request):
             return redirect("/login")
     else:
         form = RegisterCustomer()
-    return render(request, "assignment/register_user.html", {"form":form})
+    return render(request, "assignment/register_user.html", {"form":form, "ret":"/register_customer"})
 
 def registerInsuranceProvider(request):
     if (request.method == "POST"):
@@ -82,7 +81,7 @@ def registerInsuranceProvider(request):
             return redirect("/login")
     else:
         form = RegisterInsuranceProvider()
-    return render(request, "assignment/register_user.html", {"form":form})
+    return render(request, "assignment/register_user.html", {"form":form, "ret":"/register_insurance_provider"})
 
 def registerLawFirm(request):
     if (request.method == "POST"):
@@ -105,7 +104,7 @@ def registerLawFirm(request):
             return redirect("/login")
     else:
         form = RegisterLawFirm()
-    return render(request, "assignment/register_user.html", {"form":form})
+    return render(request, "assignment/register_user.html", {"form":form, "ret":"/register_law_firm"})
 
 def registerGovernment(request):
     if (request.method == "POST"):
@@ -127,17 +126,21 @@ def registerGovernment(request):
             return redirect("/login")
     else:
         form = RegisterGovernment()
-    return render(request, "assignment/register_user.html", {"form":form})
+    return render(request, "assignment/register_user.html", {"form":form, "ret":"/register_government"})
     
 
 
 def home(request):
-    if (request.user.is_authenticated):
-        return render(request, "assignment/home.html", {"user":request.user})
-    else:
+    if (not request.user.is_authenticated):
         return redirect("/login")
+    
+    return render(request, "assignment/home.html", {"user":request.user})
+        
 
 def account(request):
+    if (not request.user.is_authenticated):
+        return redirect("/login")
+
     if (request.method == "POST"):
         user = UserModel.objects.get(username = request.user.username)
         if (request.user.accType == "customer"):
@@ -247,10 +250,39 @@ def account(request):
     return render(request, "assignment/account.html", {"user":request.user, "form":form})
 
 def get_insurance(request):
+    if (not request.user.is_authenticated or request.user.accType != "customer"):
+        return redirect("/login")
+    
     return render(request, "assignment/get_insurance.html", {"user":request.user})
 
 def view_insurance(request):
-    return render(request, "assignment/view_insurance.html", {"user":request.user})
+    if (not request.user.is_authenticated):
+        return redirect("/login")
+    
+    insurance = Insurance.objects.all()
+    return render(request, "assignment/view_insurance.html", {"user":request.user, "insurances":insurance})
 
 def sell_insurance(request):
-    return render(request, "assignment/sell_insurance.html", {"user":request.user})
+    if (not request.user.is_authenticated or request.user.accType != "insurance_provider"):
+        return redirect("/login")
+    
+    if (request.method == "POST"):
+        form = SellInsurance(request.POST)
+        insurance_provider = Insurance_Provider.objects.get(user = request.user)
+        if form.is_valid():
+            insurance = Insurance(
+                provider = insurance_provider,
+                title = form["title"].value(),
+                coverage = form["coverage"].value(),
+                details = form["details"].value(),
+                cost = form["cost"].value(),
+            )
+            insurance.save()
+            return redirect("/sell_insurance")
+    else:
+        form = SellInsurance()
+    return render(request, "assignment/sell_insurance.html", {"user":request.user, "form":form})
+
+def logout_page(request):
+    logout(request)
+    return redirect("/login")

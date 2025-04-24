@@ -47,3 +47,9 @@ class RegisterGovernment(forms.Form):
     password = forms.CharField(label="Password", max_length=100, widget=forms.PasswordInput)
     address = forms.CharField(label="Home Address", max_length=128)
     billingAddress = forms.CharField(label="Billing Address", max_length=128)
+
+class SellInsurance(forms.Form):
+    title = forms.CharField(label="Insurance Name", max_length=100)
+    coverage = forms.CharField(label = "Coverage", max_length=100)
+    details = forms.CharField(label = "Details", max_length=200)
+    cost = forms.FloatField(label = "Cost")

@@ -20,7 +20,6 @@ class Customer(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, primary_key=True)
     dob = models.CharField(null=True)
     phoneNum = models.CharField(max_length=100)
-
     def __str__(self):
         return self.user.username
 
@@ -34,3 +33,20 @@ class Law_Firm(models.Model):
 
 class Government(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, primary_key=True)
+class Insurance(models.Model):
+    provider = models.ForeignKey(Insurance_Provider, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    coverage = models.CharField(max_length=100)
+    details = models.CharField(max_length=200)
+    cost = models.FloatField()
+
+class Claims(models.Model):
+    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    date = models.CharField()
+    third_parties = models.CharField()
+    details = models.CharField(max_length=512)
+
+class Purchase_Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE)
