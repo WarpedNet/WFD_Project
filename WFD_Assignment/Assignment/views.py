@@ -117,7 +117,7 @@ def registerGovernment(request):
                 billingAddress = form["billingAddress"].value(),
                 accType = "government"
             )
-            user.set_password(form["password"])
+            user.set_password(form["password"].value())
             user.save()
             government = Government(
                 user = user
@@ -137,7 +137,8 @@ def home(request):
     if (request.user.accType == "customer"):
         customer = Customer.objects.get(user = request.user)
         insuranceCoverage = Purchase_Order.objects.filter(customer = customer)
-        return render(request, "assignment/home.html", {"user":request.user, "insuranceCoverage":insuranceCoverage})
+        claims = Claims.objects.filter(customer = customer)
+        return render(request, "assignment/home.html", {"user":request.user, "insuranceCoverage":insuranceCoverage, "claims":claims})
     return render(request, "assignment/home.html", {"user":request.user})
         
 
@@ -242,7 +243,7 @@ def account(request):
                 }
             )
         elif (request.user.accType == "government"):
-            form = Government(
+            form = RegisterGovernment(
                 initial={
                     'username':request.user.username,
                     'email':request.user.email,
@@ -257,7 +258,6 @@ def view_insurance(request):
     if (not request.user.is_authenticated):
         return redirect("/login")
     
-
     insurance = Insurance.objects.all()
     return render(request, "assignment/view_insurance.html", {"user":request.user, "insurances":insurance})
 
@@ -292,6 +292,26 @@ def make_purchase_order(request, insuranceID):
     po.save()
     return redirect("/view_insurance")
 
+def make_claim(request):
+    if (not request.user.is_authenticated or request.user.accType != "customer"):
+        return redirect("/login")
+    customer = Customer.objects.get(user = request.user)
+    if (request.method == "POST"):
+        form = MakeClaim(request.POST, customer = customer)
+        insurance = Insurance.objects.get(pk = form["insurance"].value())
+        if form.is_valid():
+            claim = Claims(
+                insurance = insurance,
+                customer = customer,
+                date = form["date"].value(),
+                third_parties = form["third_parties"].value(),
+                details = form["details"].value(),
+            )
+            claim.save()
+            return redirect("/home")
+    else:
+        form = MakeClaim(customer = customer)
+    return render(request, "assignment/make_claim.html", {"user":request.user, "form":form})
 
 def logout_page(request):
     logout(request)

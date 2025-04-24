@@ -8,24 +8,28 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/account">View Account</a>
-            <a class="navbar-brand" href="/logout">Log Out</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/home">Home</a>
-                <a class="nav-item nav-link" href="/view_insurance">View Insurance</a>
-
-                {% if user.accType == "insurance_provider" %}
-                <a class="nav-item nav-link" href="/sell_insurance">Sell Insurance <span class="sr-only">(current)</span></a>
-                {% endif %}
-                
-              </div>
-            </div>
-          </nav>
+      <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
+        <a class="navbar-brand" href="/account">View Account</a>
+        <a class="navbar-brand" href="/logout">Log Out</a>
+        <a class="navbar-brand" href="/home">Home</a>
+        <a class="navbar-brand" href="/view_insurance">View Insurance</a>
+        {% if user.accType == "insurance_provider" %}
+        <a class="navbar-brand" href="/sell_insurance">Sell Insurance <span class="sr-only">(current)</span></a>
+        {% endif %}
+        {% if user.accType == "customer" %}
+        <a class="navbar-brand" href="/make_claim">Make Claim</a>
+        {% endif %}
+        {% if user.accType == "customer" %}
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="#myInsurance">My Insurance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#myClaims">My Claims</a>
+            </li>
+          </ul>
+        {% endif %}
+      </nav>
           <div class="container h-100 w-25 mx-auto pt-5">
             <h2 class="row align-items-center justify-content-center text-center text-decoration-underline">Sell Insurance</h2>
             <form action="/sell_insurance" method="post">

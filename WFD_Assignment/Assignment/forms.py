@@ -1,4 +1,5 @@
 from django import forms
+from .models import Purchase_Order
 
 USER_CHOICES = [
     ("customer", "Customer"),
@@ -53,3 +54,14 @@ class SellInsurance(forms.Form):
     coverage = forms.CharField(label = "Coverage", max_length=100)
     details = forms.CharField(label = "Details", max_length=200)
     cost = forms.FloatField(label = "Cost")
+
+class MakeClaim(forms.Form):
+    insurance = forms.ModelChoiceField(queryset=None, label="Insurance", empty_label="Select Insurance")
+    date = forms.DateField()
+    third_parties = forms.CharField(max_length=512)
+    details = forms.CharField(max_length=512)
+
+    def __init__(self, *args, **kwargs):
+        insurance = Purchase_Order.objects.filter(customer = kwargs.pop("customer"))
+        super(MakeClaim, self).__init__(*args, **kwargs)
+        self.fields["insurance"].queryset = insurance

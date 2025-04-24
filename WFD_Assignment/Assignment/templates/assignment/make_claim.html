@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,7 @@
     </head>
     <body>
         <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
-            <a class="navbar-brand" href="/account">View Account <span class="sr-only">(current)</span></a>
+            <a class="navbar-brand" href="/account">View Account</a>
             <a class="navbar-brand" href="/logout">Log Out</a>
             <a class="navbar-brand" href="/home">Home</a>
             <a class="navbar-brand" href="/view_insurance">View Insurance</a>
@@ -17,7 +16,7 @@
             <a class="navbar-brand" href="/sell_insurance">Sell Insurance</a>
             {% endif %}
             {% if user.accType == "customer" %}
-            <a class="navbar-brand" href="/make_claim">Make Claim</a>
+            <a class="navbar-brand" href="/make_claim">Make Claim <span class="sr-only">(current)</span></a>
             {% endif %}
             {% if user.accType == "customer" %}
               <ul class="nav nav-pills">
@@ -31,20 +30,20 @@
             {% endif %}
         </nav>
         <div class="container h-100 w-25 mx-auto pt-5">
-            <h2 class="row align-items-center justify-content-center text-center text-decoration-underline">Update Details</h2>
-            <form action="/account" method="post">
+            <h2 class="row align-items-center justify-content-center text-center text-decoration-underline">Make Claim</h2>
+            <form action="/make_claim" method="post">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="mb-3 row align-items-center justify-content-center">
                     {{field.label_tag}} {{field}}
                 </div>
                 {% endfor %}
-
                 <div class="row justify-content-center">
-                    <button type="submit" class="btn btn-primary col">Update Details</button>
+                    <button type="submit" class="btn btn-primary col">Make Claim</button>
                 </div>
             </form>
         </div>
+        
         {% comment %} Bootstrap Javascript {% endcomment %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     </body>
